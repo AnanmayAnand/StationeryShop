@@ -1,0 +1,723 @@
+Enter password: ******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.41 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create stationary;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'stationary' at line 1
+mysql> create database stationary;
+Query OK, 1 row affected (0.14 sec)
+
+mysql> use stationary;
+Database changed
+mysql> LOAD DATA LOCAL INFILE '/full/path/to/stationery_sales.csv'
+    -> INTO TABLE StationerySales
+    -> FIELDS TERMINATED BY ','
+    -> ENCLOSED BY '"'
+    -> LINES TERMINATED BY '\n'
+    -> IGNORE 1 ROWS
+    -> (Date, ItemName, Category, QuantitySold, UnitPrice, StockLeft);
+ERROR 3948 (42000): Loading local data is disabled; this must be enabled on both the client and server sides
+mysql> SHOW VARIABLES LIKE 'secure_file_priv';
++------------------+------------------------------------------------+
+| Variable_name    | Value                                          |
++------------------+------------------------------------------------+
+| secure_file_priv | C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\ |
++------------------+------------------------------------------------+
+1 row in set (0.10 sec)
+
+mysql> LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/stationery_sales.csv'
+    -> INTO TABLE StationerySales
+    -> FIELDS TERMINATED BY ','
+    -> ENCLOSED BY '"'
+    -> LINES TERMINATED BY '\n'
+    -> IGNORE 1 ROWS
+    -> (Date, ItemName, Category, QuantitySold, UnitPrice, StockLeft);
+ERROR 1146 (42S02): Table 'stationary.stationerysales' doesn't exist
+mysql> CREATE TABLE StationerySales (
+    ->     SaleID INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Date DATE,
+    ->     ItemName VARCHAR(50),
+    ->     Category VARCHAR(50),
+    ->     QuantitySold INT,
+    ->     UnitPrice DECIMAL(5,2),
+    ->     StockLeft INT
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/stationery_sales.csv'
+    -> INTO TABLE StationerySales
+    -> FIELDS TERMINATED BY ','
+    -> ENCLOSED BY '"'
+    -> LINES TERMINATED BY '\n'
+    -> IGNORE 1 ROWS
+    -> (Date, ItemName, Category, QuantitySold, UnitPrice, StockLeft);
+ERROR 29 (HY000): File 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\stationery_sales.csv' not found (OS errno 2 - No such file or directory)
+mysql> LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Stationary Shop.csv'
+    -> INTO TABLE StationerySales
+    -> FIELDS TERMINATED BY ','
+    -> ENCLOSED BY '"'
+    -> LINES TERMINATED BY '\r\n'
+    -> IGNORE 1 ROWS
+    -> (Date, ItemName, Category, QuantitySold, UnitPrice, StockLeft);
+ERROR 1292 (22007): Incorrect date value: 'Accessories' for column 'Date' at row 1
+mysql> LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Stationary Shop.csv'
+    -> INTO TABLE StationerySales
+    -> FIELDS TERMINATED BY ','
+    -> ENCLOSED BY '"'
+    -> LINES TERMINATED BY '\r\n'
+    -> IGNORE 1 ROWS
+    -> (Date, ItemName, Category, QuantitySold, UnitPrice, StockLeft);
+ERROR 1292 (22007): Incorrect date value: 'Accessories' for column 'Date' at row 1
+mysql> LOAD DATA INFILE ...
+    -> INTO TABLE StationerySales
+    -> (Date, ItemName, Category, QuantitySold, UnitPrice, StockLeft);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '...
+INTO TABLE StationerySales
+(Date, ItemName, Category, QuantitySold, UnitPric' at line 1
+mysql> LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Stationary Shop.csv'
+    -> INTO TABLE StationerySales
+    -> FIELDS TERMINATED BY ','
+    -> ENCLOSED BY '"'
+    -> LINES TERMINATED BY '\r\n'
+    -> IGNORE 1 ROWS
+    -> (Date, ItemName, Category, QuantitySold, UnitPrice, StockLeft, @TotalSales)
+    -> ;
+ERROR 1292 (22007): Incorrect date value: '01-05-2025' for column 'Date' at row 1
+mysql> LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Stationary Shop.csv'
+    -> INTO TABLE StationerySales
+    -> FIELDS TERMINATED BY ','
+    -> ENCLOSED BY '"'
+    -> LINES TERMINATED BY '\r\n'
+    -> IGNORE 1 ROWS
+    -> (@var_date, ItemName, Category, QuantitySold, UnitPrice, StockLeft, @TotalSales)
+    -> SET Date = STR_TO_DATE(@var_date, '%d-%m-%Y');
+Query OK, 90 rows affected (0.04 sec)
+Records: 90  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> select * from stationerySales;
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName      | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+|      1 | 2025-05-01 | Notebook      | Paper Goods |           15 |      2.00 |        85 |
+|      2 | 2025-05-01 | Pen           | Writing     |           25 |      0.50 |       175 |
+|      3 | 2025-05-01 | Pencil        | Writing     |           30 |      0.30 |       170 |
+|      4 | 2025-05-02 | Eraser        | Accessories |           10 |      0.25 |        40 |
+|      5 | 2025-05-02 | Marker        | Writing     |           12 |      1.00 |        88 |
+|      6 | 2025-05-02 | Ruler         | Accessories |            5 |      0.75 |        95 |
+|      7 | 2025-05-03 | Glue Stick    | Accessories |            8 |      1.20 |        92 |
+|      8 | 2025-05-03 | Sharpener     | Accessories |           18 |      0.60 |        82 |
+|      9 | 2025-05-03 | Colored Paper | Paper Goods |            7 |      3.00 |        93 |
+|     10 | 2025-05-04 | Highlighter   | Writing     |            9 |      1.50 |        91 |
+|     11 | 2025-05-04 | Notebook      | Paper Goods |           22 |      2.00 |        63 |
+|     12 | 2025-05-04 | Pen           | Writing     |           30 |      0.50 |       145 |
+|     13 | 2025-05-05 | Pencil        | Writing     |           24 |      0.30 |       146 |
+|     14 | 2025-05-05 | Eraser        | Accessories |           11 |      0.25 |        29 |
+|     15 | 2025-05-05 | Marker        | Writing     |           15 |      1.00 |        73 |
+|     16 | 2025-05-06 | Ruler         | Accessories |           10 |      0.75 |        85 |
+|     17 | 2025-05-06 | Glue Stick    | Accessories |            9 |      1.20 |        83 |
+|     18 | 2025-05-06 | Sharpener     | Accessories |           13 |      0.60 |        69 |
+|     19 | 2025-05-07 | Colored Paper | Paper Goods |           10 |      3.00 |        83 |
+|     20 | 2025-05-07 | Highlighter   | Writing     |            8 |      1.50 |        83 |
+|     21 | 2025-05-07 | Notebook      | Paper Goods |           14 |      2.00 |        49 |
+|     22 | 2025-05-08 | Pen           | Writing     |           20 |      0.50 |       125 |
+|     23 | 2025-05-08 | Pencil        | Writing     |           27 |      0.30 |       119 |
+|     24 | 2025-05-08 | Eraser        | Accessories |           12 |      0.25 |        17 |
+|     25 | 2025-05-09 | Marker        | Writing     |            9 |      1.00 |        64 |
+|     26 | 2025-05-09 | Ruler         | Accessories |            6 |      0.75 |        79 |
+|     27 | 2025-05-09 | Glue Stick    | Accessories |           11 |      1.20 |        72 |
+|     28 | 2025-05-10 | Sharpener     | Accessories |           15 |      0.60 |        54 |
+|     29 | 2025-05-10 | Colored Paper | Paper Goods |            9 |      3.00 |        74 |
+|     30 | 2025-05-10 | Highlighter   | Writing     |           10 |      1.50 |        73 |
+|     31 | 2025-05-11 | Notebook      | Paper Goods |           18 |      2.00 |        31 |
+|     32 | 2025-05-11 | Pen           | Writing     |           22 |      0.50 |       103 |
+|     33 | 2025-05-11 | Pencil        | Writing     |           29 |      0.30 |        90 |
+|     34 | 2025-05-12 | Eraser        | Accessories |           13 |      0.25 |         4 |
+|     35 | 2025-05-12 | Marker        | Writing     |           14 |      1.00 |        50 |
+|     36 | 2025-05-12 | Ruler         | Accessories |            8 |      0.75 |        71 |
+|     37 | 2025-05-13 | Glue Stick    | Accessories |           12 |      1.20 |        60 |
+|     38 | 2025-05-13 | Sharpener     | Accessories |           11 |      0.60 |        43 |
+|     39 | 2025-05-13 | Colored Paper | Paper Goods |            8 |      3.00 |        66 |
+|     40 | 2025-05-14 | Highlighter   | Writing     |           13 |      1.50 |        60 |
+|     41 | 2025-05-14 | Notebook      | Paper Goods |           21 |      2.00 |        10 |
+|     42 | 2025-05-14 | Pen           | Writing     |           18 |      0.50 |        85 |
+|     43 | 2025-05-15 | Pencil        | Writing     |           25 |      0.30 |        65 |
+|     44 | 2025-05-15 | Eraser        | Accessories |           10 |      0.25 |         0 |
+|     45 | 2025-05-15 | Marker        | Writing     |           17 |      1.00 |        33 |
+|     46 | 2025-05-16 | Ruler         | Accessories |            7 |      0.75 |        64 |
+|     47 | 2025-05-16 | Glue Stick    | Accessories |           10 |      1.20 |        50 |
+|     48 | 2025-05-16 | Sharpener     | Accessories |           14 |      0.60 |        29 |
+|     49 | 2025-05-17 | Colored Paper | Paper Goods |           11 |      3.00 |        55 |
+|     50 | 2025-05-17 | Highlighter   | Writing     |           12 |      1.50 |        48 |
+|     51 | 2025-05-17 | Notebook      | Paper Goods |           19 |      2.00 |        -9 |
+|     52 | 2025-05-18 | Pen           | Writing     |           23 |      0.50 |        62 |
+|     53 | 2025-05-18 | Pencil        | Writing     |           28 |      0.30 |        37 |
+|     54 | 2025-05-18 | Eraser        | Accessories |           14 |      0.25 |       -14 |
+|     55 | 2025-05-19 | Marker        | Writing     |           20 |      1.00 |        13 |
+|     56 | 2025-05-19 | Ruler         | Accessories |            9 |      0.75 |        55 |
+|     57 | 2025-05-19 | Glue Stick    | Accessories |           13 |      1.20 |        37 |
+|     58 | 2025-05-20 | Sharpener     | Accessories |           16 |      0.60 |        13 |
+|     59 | 2025-05-20 | Colored Paper | Paper Goods |           10 |      3.00 |        45 |
+|     60 | 2025-05-20 | Highlighter   | Writing     |           11 |      1.50 |        37 |
+|     61 | 2025-05-21 | Notebook      | Paper Goods |           22 |      2.00 |       -31 |
+|     62 | 2025-05-21 | Pen           | Writing     |           24 |      0.50 |        38 |
+|     63 | 2025-05-21 | Pencil        | Writing     |           26 |      0.30 |        11 |
+|     64 | 2025-05-22 | Eraser        | Accessories |           15 |      0.25 |       -29 |
+|     65 | 2025-05-22 | Marker        | Writing     |           18 |      1.00 |        -5 |
+|     66 | 2025-05-22 | Ruler         | Accessories |           10 |      0.75 |        45 |
+|     67 | 2025-05-23 | Glue Stick    | Accessories |           11 |      1.20 |        26 |
+|     68 | 2025-05-23 | Sharpener     | Accessories |           13 |      0.60 |         0 |
+|     69 | 2025-05-23 | Colored Paper | Paper Goods |            9 |      3.00 |        36 |
+|     70 | 2025-05-24 | Highlighter   | Writing     |           14 |      1.50 |        23 |
+|     71 | 2025-05-24 | Notebook      | Paper Goods |           20 |      2.00 |       -51 |
+|     72 | 2025-05-24 | Pen           | Writing     |           21 |      0.50 |        17 |
+|     73 | 2025-05-25 | Pencil        | Writing     |           27 |      0.30 |       -16 |
+|     74 | 2025-05-25 | Eraser        | Accessories |           16 |      0.25 |       -45 |
+|     75 | 2025-05-25 | Marker        | Writing     |           22 |      1.00 |       -27 |
+|     76 | 2025-05-26 | Ruler         | Accessories |           12 |      0.75 |        33 |
+|     77 | 2025-05-26 | Glue Stick    | Accessories |           13 |      1.20 |        13 |
+|     78 | 2025-05-26 | Sharpener     | Accessories |           17 |      0.60 |       -17 |
+|     79 | 2025-05-27 | Colored Paper | Paper Goods |           12 |      3.00 |        24 |
+|     80 | 2025-05-27 | Highlighter   | Writing     |           15 |      1.50 |         8 |
+|     81 | 2025-05-27 | Notebook      | Paper Goods |           23 |      2.00 |       -74 |
+|     82 | 2025-05-28 | Pen           | Writing     |           28 |      0.50 |       -11 |
+|     83 | 2025-05-28 | Pencil        | Writing     |           29 |      0.30 |       -45 |
+|     84 | 2025-05-28 | Eraser        | Accessories |           17 |      0.25 |       -62 |
+|     85 | 2025-05-29 | Marker        | Writing     |           24 |      1.00 |       -51 |
+|     86 | 2025-05-29 | Ruler         | Accessories |           14 |      0.75 |        19 |
+|     87 | 2025-05-29 | Glue Stick    | Accessories |           15 |      1.20 |        -2 |
+|     88 | 2025-05-30 | Sharpener     | Accessories |           18 |      0.60 |       -35 |
+|     89 | 2025-05-30 | Colored Paper | Paper Goods |           13 |      3.00 |        11 |
+|     90 | 2025-05-30 | Highlighter   | Writing     |           16 |      1.50 |        -8 |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+90 rows in set (0.00 sec)
+
+mysql> select * max(profit) from StationerySales;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'max(profit) from StationerySales' at line 1
+mysql> select * from StationerySales where profit=max(profit);
+ERROR 1054 (42S22): Unknown column 'profit' in 'where clause'
+mysql> select * from StationerySales where QuantitySold=max(QuantitSold);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select * from StationerySales where QuantitySold=max(QuantitySold);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select max(QuantitySold) from StationerySales;
++-------------------+
+| max(QuantitySold) |
++-------------------+
+|                30 |
++-------------------+
+1 row in set (0.03 sec)
+
+mysql> select * max(QuantitySold) from StationerySales;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'max(QuantitySold) from StationerySales' at line 1
+mysql> select * from StationerySales where UnitPrice=1;
++--------+------------+----------+----------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName | Category | QuantitySold | UnitPrice | StockLeft |
++--------+------------+----------+----------+--------------+-----------+-----------+
+|      5 | 2025-05-02 | Marker   | Writing  |           12 |      1.00 |        88 |
+|     15 | 2025-05-05 | Marker   | Writing  |           15 |      1.00 |        73 |
+|     25 | 2025-05-09 | Marker   | Writing  |            9 |      1.00 |        64 |
+|     35 | 2025-05-12 | Marker   | Writing  |           14 |      1.00 |        50 |
+|     45 | 2025-05-15 | Marker   | Writing  |           17 |      1.00 |        33 |
+|     55 | 2025-05-19 | Marker   | Writing  |           20 |      1.00 |        13 |
+|     65 | 2025-05-22 | Marker   | Writing  |           18 |      1.00 |        -5 |
+|     75 | 2025-05-25 | Marker   | Writing  |           22 |      1.00 |       -27 |
+|     85 | 2025-05-29 | Marker   | Writing  |           24 |      1.00 |       -51 |
++--------+------------+----------+----------+--------------+-----------+-----------+
+9 rows in set (0.01 sec)
+
+mysql> select * from StationerySales where UnitPrice=0;
+Empty set (0.00 sec)
+
+mysql> select * from StationerySales where UnitPrice=2;
++--------+------------+----------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+|      1 | 2025-05-01 | Notebook | Paper Goods |           15 |      2.00 |        85 |
+|     11 | 2025-05-04 | Notebook | Paper Goods |           22 |      2.00 |        63 |
+|     21 | 2025-05-07 | Notebook | Paper Goods |           14 |      2.00 |        49 |
+|     31 | 2025-05-11 | Notebook | Paper Goods |           18 |      2.00 |        31 |
+|     41 | 2025-05-14 | Notebook | Paper Goods |           21 |      2.00 |        10 |
+|     51 | 2025-05-17 | Notebook | Paper Goods |           19 |      2.00 |        -9 |
+|     61 | 2025-05-21 | Notebook | Paper Goods |           22 |      2.00 |       -31 |
+|     71 | 2025-05-24 | Notebook | Paper Goods |           20 |      2.00 |       -51 |
+|     81 | 2025-05-27 | Notebook | Paper Goods |           23 |      2.00 |       -74 |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from StationerySales where UnitPrice=3;
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName      | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+|      9 | 2025-05-03 | Colored Paper | Paper Goods |            7 |      3.00 |        93 |
+|     19 | 2025-05-07 | Colored Paper | Paper Goods |           10 |      3.00 |        83 |
+|     29 | 2025-05-10 | Colored Paper | Paper Goods |            9 |      3.00 |        74 |
+|     39 | 2025-05-13 | Colored Paper | Paper Goods |            8 |      3.00 |        66 |
+|     49 | 2025-05-17 | Colored Paper | Paper Goods |           11 |      3.00 |        55 |
+|     59 | 2025-05-20 | Colored Paper | Paper Goods |           10 |      3.00 |        45 |
+|     69 | 2025-05-23 | Colored Paper | Paper Goods |            9 |      3.00 |        36 |
+|     79 | 2025-05-27 | Colored Paper | Paper Goods |           12 |      3.00 |        24 |
+|     89 | 2025-05-30 | Colored Paper | Paper Goods |           13 |      3.00 |        11 |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from StationerySales where UnitPrice=4;
+Empty set (0.00 sec)
+
+mysql> select * from StationerySales where UnitPrice=5;
+Empty set (0.00 sec)
+
+mysql> select * from StationerySales limit 10 offset 10;
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName      | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+|     11 | 2025-05-04 | Notebook      | Paper Goods |           22 |      2.00 |        63 |
+|     12 | 2025-05-04 | Pen           | Writing     |           30 |      0.50 |       145 |
+|     13 | 2025-05-05 | Pencil        | Writing     |           24 |      0.30 |       146 |
+|     14 | 2025-05-05 | Eraser        | Accessories |           11 |      0.25 |        29 |
+|     15 | 2025-05-05 | Marker        | Writing     |           15 |      1.00 |        73 |
+|     16 | 2025-05-06 | Ruler         | Accessories |           10 |      0.75 |        85 |
+|     17 | 2025-05-06 | Glue Stick    | Accessories |            9 |      1.20 |        83 |
+|     18 | 2025-05-06 | Sharpener     | Accessories |           13 |      0.60 |        69 |
+|     19 | 2025-05-07 | Colored Paper | Paper Goods |           10 |      3.00 |        83 |
+|     20 | 2025-05-07 | Highlighter   | Writing     |            8 |      1.50 |        83 |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from StationerySales limit 0 offset 10;
+Empty set (0.00 sec)
+
+mysql> select * from StationerySales limit 10 offset 0;
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName      | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+|      1 | 2025-05-01 | Notebook      | Paper Goods |           15 |      2.00 |        85 |
+|      2 | 2025-05-01 | Pen           | Writing     |           25 |      0.50 |       175 |
+|      3 | 2025-05-01 | Pencil        | Writing     |           30 |      0.30 |       170 |
+|      4 | 2025-05-02 | Eraser        | Accessories |           10 |      0.25 |        40 |
+|      5 | 2025-05-02 | Marker        | Writing     |           12 |      1.00 |        88 |
+|      6 | 2025-05-02 | Ruler         | Accessories |            5 |      0.75 |        95 |
+|      7 | 2025-05-03 | Glue Stick    | Accessories |            8 |      1.20 |        92 |
+|      8 | 2025-05-03 | Sharpener     | Accessories |           18 |      0.60 |        82 |
+|      9 | 2025-05-03 | Colored Paper | Paper Goods |            7 |      3.00 |        93 |
+|     10 | 2025-05-04 | Highlighter   | Writing     |            9 |      1.50 |        91 |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> selec ItemName from StationerySales;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selec ItemName from StationerySales' at line 1
+mysql> select ItemName from StationerySales;
++---------------+
+| ItemName      |
++---------------+
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
+| Notebook      |
+| Pen           |
+| Pencil        |
+| Eraser        |
+| Marker        |
+| Ruler         |
+| Glue Stick    |
+| Sharpener     |
+| Colored Paper |
+| Highlighter   |
++---------------+
+90 rows in set (0.00 sec)
+
+mysql> select ItemName,UnitPrice,QuantitySold from StationerySales;
++---------------+-----------+--------------+
+| ItemName      | UnitPrice | QuantitySold |
++---------------+-----------+--------------+
+| Notebook      |      2.00 |           15 |
+| Pen           |      0.50 |           25 |
+| Pencil        |      0.30 |           30 |
+| Eraser        |      0.25 |           10 |
+| Marker        |      1.00 |           12 |
+| Ruler         |      0.75 |            5 |
+| Glue Stick    |      1.20 |            8 |
+| Sharpener     |      0.60 |           18 |
+| Colored Paper |      3.00 |            7 |
+| Highlighter   |      1.50 |            9 |
+| Notebook      |      2.00 |           22 |
+| Pen           |      0.50 |           30 |
+| Pencil        |      0.30 |           24 |
+| Eraser        |      0.25 |           11 |
+| Marker        |      1.00 |           15 |
+| Ruler         |      0.75 |           10 |
+| Glue Stick    |      1.20 |            9 |
+| Sharpener     |      0.60 |           13 |
+| Colored Paper |      3.00 |           10 |
+| Highlighter   |      1.50 |            8 |
+| Notebook      |      2.00 |           14 |
+| Pen           |      0.50 |           20 |
+| Pencil        |      0.30 |           27 |
+| Eraser        |      0.25 |           12 |
+| Marker        |      1.00 |            9 |
+| Ruler         |      0.75 |            6 |
+| Glue Stick    |      1.20 |           11 |
+| Sharpener     |      0.60 |           15 |
+| Colored Paper |      3.00 |            9 |
+| Highlighter   |      1.50 |           10 |
+| Notebook      |      2.00 |           18 |
+| Pen           |      0.50 |           22 |
+| Pencil        |      0.30 |           29 |
+| Eraser        |      0.25 |           13 |
+| Marker        |      1.00 |           14 |
+| Ruler         |      0.75 |            8 |
+| Glue Stick    |      1.20 |           12 |
+| Sharpener     |      0.60 |           11 |
+| Colored Paper |      3.00 |            8 |
+| Highlighter   |      1.50 |           13 |
+| Notebook      |      2.00 |           21 |
+| Pen           |      0.50 |           18 |
+| Pencil        |      0.30 |           25 |
+| Eraser        |      0.25 |           10 |
+| Marker        |      1.00 |           17 |
+| Ruler         |      0.75 |            7 |
+| Glue Stick    |      1.20 |           10 |
+| Sharpener     |      0.60 |           14 |
+| Colored Paper |      3.00 |           11 |
+| Highlighter   |      1.50 |           12 |
+| Notebook      |      2.00 |           19 |
+| Pen           |      0.50 |           23 |
+| Pencil        |      0.30 |           28 |
+| Eraser        |      0.25 |           14 |
+| Marker        |      1.00 |           20 |
+| Ruler         |      0.75 |            9 |
+| Glue Stick    |      1.20 |           13 |
+| Sharpener     |      0.60 |           16 |
+| Colored Paper |      3.00 |           10 |
+| Highlighter   |      1.50 |           11 |
+| Notebook      |      2.00 |           22 |
+| Pen           |      0.50 |           24 |
+| Pencil        |      0.30 |           26 |
+| Eraser        |      0.25 |           15 |
+| Marker        |      1.00 |           18 |
+| Ruler         |      0.75 |           10 |
+| Glue Stick    |      1.20 |           11 |
+| Sharpener     |      0.60 |           13 |
+| Colored Paper |      3.00 |            9 |
+| Highlighter   |      1.50 |           14 |
+| Notebook      |      2.00 |           20 |
+| Pen           |      0.50 |           21 |
+| Pencil        |      0.30 |           27 |
+| Eraser        |      0.25 |           16 |
+| Marker        |      1.00 |           22 |
+| Ruler         |      0.75 |           12 |
+| Glue Stick    |      1.20 |           13 |
+| Sharpener     |      0.60 |           17 |
+| Colored Paper |      3.00 |           12 |
+| Highlighter   |      1.50 |           15 |
+| Notebook      |      2.00 |           23 |
+| Pen           |      0.50 |           28 |
+| Pencil        |      0.30 |           29 |
+| Eraser        |      0.25 |           17 |
+| Marker        |      1.00 |           24 |
+| Ruler         |      0.75 |           14 |
+| Glue Stick    |      1.20 |           15 |
+| Sharpener     |      0.60 |           18 |
+| Colored Paper |      3.00 |           13 |
+| Highlighter   |      1.50 |           16 |
++---------------+-----------+--------------+
+90 rows in set (0.00 sec)
+
+mysql> select * from StationerySales
+    -> where QuantiySold>20;
+ERROR 1054 (42S22): Unknown column 'QuantiySold' in 'where clause'
+mysql> where QuantitySold>20;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where QuantitySold>20' at line 1
+mysql> select * from StationerySales where QuantitySold >20;
++--------+------------+----------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+|      2 | 2025-05-01 | Pen      | Writing     |           25 |      0.50 |       175 |
+|      3 | 2025-05-01 | Pencil   | Writing     |           30 |      0.30 |       170 |
+|     11 | 2025-05-04 | Notebook | Paper Goods |           22 |      2.00 |        63 |
+|     12 | 2025-05-04 | Pen      | Writing     |           30 |      0.50 |       145 |
+|     13 | 2025-05-05 | Pencil   | Writing     |           24 |      0.30 |       146 |
+|     23 | 2025-05-08 | Pencil   | Writing     |           27 |      0.30 |       119 |
+|     32 | 2025-05-11 | Pen      | Writing     |           22 |      0.50 |       103 |
+|     33 | 2025-05-11 | Pencil   | Writing     |           29 |      0.30 |        90 |
+|     41 | 2025-05-14 | Notebook | Paper Goods |           21 |      2.00 |        10 |
+|     43 | 2025-05-15 | Pencil   | Writing     |           25 |      0.30 |        65 |
+|     52 | 2025-05-18 | Pen      | Writing     |           23 |      0.50 |        62 |
+|     53 | 2025-05-18 | Pencil   | Writing     |           28 |      0.30 |        37 |
+|     61 | 2025-05-21 | Notebook | Paper Goods |           22 |      2.00 |       -31 |
+|     62 | 2025-05-21 | Pen      | Writing     |           24 |      0.50 |        38 |
+|     63 | 2025-05-21 | Pencil   | Writing     |           26 |      0.30 |        11 |
+|     72 | 2025-05-24 | Pen      | Writing     |           21 |      0.50 |        17 |
+|     73 | 2025-05-25 | Pencil   | Writing     |           27 |      0.30 |       -16 |
+|     75 | 2025-05-25 | Marker   | Writing     |           22 |      1.00 |       -27 |
+|     81 | 2025-05-27 | Notebook | Paper Goods |           23 |      2.00 |       -74 |
+|     82 | 2025-05-28 | Pen      | Writing     |           28 |      0.50 |       -11 |
+|     83 | 2025-05-28 | Pencil   | Writing     |           29 |      0.30 |       -45 |
+|     85 | 2025-05-29 | Marker   | Writing     |           24 |      1.00 |       -51 |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+22 rows in set (0.00 sec)
+
+mysql> select * from StationerySales where QuantitySold >20 order by Desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Desc' at line 1
+mysql> select * from StationerySales where QuantitySold >20 orderby;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'orderby' at line 1
+mysql> select * from StationerySales where QuantitySold >20 orderby Date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'orderby Date' at line 1
+mysql> select * from StationerySales where QuantitySold >20 order by Date;
++--------+------------+----------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+|      2 | 2025-05-01 | Pen      | Writing     |           25 |      0.50 |       175 |
+|      3 | 2025-05-01 | Pencil   | Writing     |           30 |      0.30 |       170 |
+|     11 | 2025-05-04 | Notebook | Paper Goods |           22 |      2.00 |        63 |
+|     12 | 2025-05-04 | Pen      | Writing     |           30 |      0.50 |       145 |
+|     13 | 2025-05-05 | Pencil   | Writing     |           24 |      0.30 |       146 |
+|     23 | 2025-05-08 | Pencil   | Writing     |           27 |      0.30 |       119 |
+|     32 | 2025-05-11 | Pen      | Writing     |           22 |      0.50 |       103 |
+|     33 | 2025-05-11 | Pencil   | Writing     |           29 |      0.30 |        90 |
+|     41 | 2025-05-14 | Notebook | Paper Goods |           21 |      2.00 |        10 |
+|     43 | 2025-05-15 | Pencil   | Writing     |           25 |      0.30 |        65 |
+|     52 | 2025-05-18 | Pen      | Writing     |           23 |      0.50 |        62 |
+|     53 | 2025-05-18 | Pencil   | Writing     |           28 |      0.30 |        37 |
+|     61 | 2025-05-21 | Notebook | Paper Goods |           22 |      2.00 |       -31 |
+|     62 | 2025-05-21 | Pen      | Writing     |           24 |      0.50 |        38 |
+|     63 | 2025-05-21 | Pencil   | Writing     |           26 |      0.30 |        11 |
+|     72 | 2025-05-24 | Pen      | Writing     |           21 |      0.50 |        17 |
+|     73 | 2025-05-25 | Pencil   | Writing     |           27 |      0.30 |       -16 |
+|     75 | 2025-05-25 | Marker   | Writing     |           22 |      1.00 |       -27 |
+|     81 | 2025-05-27 | Notebook | Paper Goods |           23 |      2.00 |       -74 |
+|     82 | 2025-05-28 | Pen      | Writing     |           28 |      0.50 |       -11 |
+|     83 | 2025-05-28 | Pencil   | Writing     |           29 |      0.30 |       -45 |
+|     85 | 2025-05-29 | Marker   | Writing     |           24 |      1.00 |       -51 |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+22 rows in set (0.02 sec)
+
+mysql> select * from StationerySales where QuantitySold >20 order by Date desc;
++--------+------------+----------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+|     85 | 2025-05-29 | Marker   | Writing     |           24 |      1.00 |       -51 |
+|     82 | 2025-05-28 | Pen      | Writing     |           28 |      0.50 |       -11 |
+|     83 | 2025-05-28 | Pencil   | Writing     |           29 |      0.30 |       -45 |
+|     81 | 2025-05-27 | Notebook | Paper Goods |           23 |      2.00 |       -74 |
+|     73 | 2025-05-25 | Pencil   | Writing     |           27 |      0.30 |       -16 |
+|     75 | 2025-05-25 | Marker   | Writing     |           22 |      1.00 |       -27 |
+|     72 | 2025-05-24 | Pen      | Writing     |           21 |      0.50 |        17 |
+|     61 | 2025-05-21 | Notebook | Paper Goods |           22 |      2.00 |       -31 |
+|     62 | 2025-05-21 | Pen      | Writing     |           24 |      0.50 |        38 |
+|     63 | 2025-05-21 | Pencil   | Writing     |           26 |      0.30 |        11 |
+|     52 | 2025-05-18 | Pen      | Writing     |           23 |      0.50 |        62 |
+|     53 | 2025-05-18 | Pencil   | Writing     |           28 |      0.30 |        37 |
+|     43 | 2025-05-15 | Pencil   | Writing     |           25 |      0.30 |        65 |
+|     41 | 2025-05-14 | Notebook | Paper Goods |           21 |      2.00 |        10 |
+|     32 | 2025-05-11 | Pen      | Writing     |           22 |      0.50 |       103 |
+|     33 | 2025-05-11 | Pencil   | Writing     |           29 |      0.30 |        90 |
+|     23 | 2025-05-08 | Pencil   | Writing     |           27 |      0.30 |       119 |
+|     13 | 2025-05-05 | Pencil   | Writing     |           24 |      0.30 |       146 |
+|     11 | 2025-05-04 | Notebook | Paper Goods |           22 |      2.00 |        63 |
+|     12 | 2025-05-04 | Pen      | Writing     |           30 |      0.50 |       145 |
+|      2 | 2025-05-01 | Pen      | Writing     |           25 |      0.50 |       175 |
+|      3 | 2025-05-01 | Pencil   | Writing     |           30 |      0.30 |       170 |
++--------+------------+----------+-------------+--------------+-----------+-----------+
+22 rows in set (0.00 sec)
+
+mysql> select * from StationerySales order by Desc limit 5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Desc limit 5' at line 1
+mysql> select * from StationerySales order by  date Desc limit 5;
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+| SaleID | Date       | ItemName      | Category    | QuantitySold | UnitPrice | StockLeft |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+|     88 | 2025-05-30 | Sharpener     | Accessories |           18 |      0.60 |       -35 |
+|     90 | 2025-05-30 | Highlighter   | Writing     |           16 |      1.50 |        -8 |
+|     89 | 2025-05-30 | Colored Paper | Paper Goods |           13 |      3.00 |        11 |
+|     87 | 2025-05-29 | Glue Stick    | Accessories |           15 |      1.20 |        -2 |
+|     86 | 2025-05-29 | Ruler         | Accessories |           14 |      0.75 |        19 |
++--------+------------+---------------+-------------+--------------+-----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select count(*) UnitPrice from StationerySales;
++-----------+
+| UnitPrice |
++-----------+
+|        90 |
++-----------+
+1 row in set (0.05 sec)
+
+mysql> select count(*) Quantitysold from StationerySales;
++--------------+
+| Quantitysold |
++--------------+
+|           90 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> select sum(quantitysold) from StationerySales;
++-------------------+
+| sum(quantitysold) |
++-------------------+
+|              1414 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(UnitPrice) from StationerySales;
++----------------+
+| sum(UnitPrice) |
++----------------+
+|          99.90 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select max(quantitysold) from stationerysales;
++-------------------+
+| max(quantitysold) |
++-------------------+
+|                30 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select min(quantitysold) from stationerysales;
++-------------------+
+| min(quantitysold) |
++-------------------+
+|                 5 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select max(quantitysold) from stationerysales group by catogery;
+ERROR 1054 (42S22): Unknown column 'catogery' in 'group statement'
+mysql> select max(quantitysold) from stationerysales group by category;
++-------------------+
+| max(quantitysold) |
++-------------------+
+|                23 |
+|                30 |
+|                18 |
++-------------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT Category, SUM(QuantitySold) AS TotalQuantitySold
+    -> FROM StationerySales
+    -> GROUP BY Category;
++-------------+-------------------+
+| Category    | TotalQuantitySold |
++-------------+-------------------+
+| Paper Goods |               263 |
+| Writing     |               715 |
+| Accessories |               436 |
++-------------+-------------------+
+3 rows in set (0.01 sec)
+
+mysql> select sum(quantitysold) from stationerysales group by category;
++-------------------+
+| sum(quantitysold) |
++-------------------+
+|               263 |
+|               715 |
+|               436 |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> select sum(quantitysold) from stationerysales group by category wherequantitysold>100;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wherequantitysold>100' at line 1
+mysql> select sum(quantitysold) from stationerysales group by category where quantitysold>100;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where quantitysold>100' at line 1
+mysql> select sum(quantitysold) from stationerysales group by category where quantitysold > 100;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where quantitysold > 100' at line 1
+mysql> select sum(quantitysold) from stationerysales group by category where quantitysold > 100;\
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where quantitysold > 100' at line 1
+mysql> select * max(Unitprice) from stationerySales;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'max(Unitprice) from stationerySales' at line 1
+mysql> select min(quantitysold) from stationerysales;
++-------------------+
+| min(quantitysold) |
++-------------------+
+|                 5 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql>

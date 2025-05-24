@@ -1,0 +1,91 @@
+Date,Item Name,Category,Quantity Sold,Unit Price,Stock Left,Total Sales
+01-05-2025,Notebook,Paper Goods,15,2,85,30
+01-05-2025,Pen,Writing,25,0.5,175,12.5
+01-05-2025,Pencil,Writing,30,0.3,170,9
+02-05-2025,Eraser,Accessories,10,0.25,40,2.5
+02-05-2025,Marker,Writing,12,1,88,12
+02-05-2025,Ruler,Accessories,5,0.75,95,3.75
+03-05-2025,Glue Stick,Accessories,8,1.2,92,9.6
+03-05-2025,Sharpener,Accessories,18,0.6,82,10.8
+03-05-2025,Colored Paper,Paper Goods,7,3,93,21
+04-05-2025,Highlighter,Writing,9,1.5,91,13.5
+04-05-2025,Notebook,Paper Goods,22,2,63,44
+04-05-2025,Pen,Writing,30,0.5,145,15
+05-05-2025,Pencil,Writing,24,0.3,146,7.2
+05-05-2025,Eraser,Accessories,11,0.25,29,2.75
+05-05-2025,Marker,Writing,15,1,73,15
+06-05-2025,Ruler,Accessories,10,0.75,85,7.5
+06-05-2025,Glue Stick,Accessories,9,1.2,83,10.8
+06-05-2025,Sharpener,Accessories,13,0.6,69,7.8
+07-05-2025,Colored Paper,Paper Goods,10,3,83,30
+07-05-2025,Highlighter,Writing,8,1.5,83,12
+07-05-2025,Notebook,Paper Goods,14,2,49,28
+08-05-2025,Pen,Writing,20,0.5,125,10
+08-05-2025,Pencil,Writing,27,0.3,119,8.1
+08-05-2025,Eraser,Accessories,12,0.25,17,3
+09-05-2025,Marker,Writing,9,1,64,9
+09-05-2025,Ruler,Accessories,6,0.75,79,4.5
+09-05-2025,Glue Stick,Accessories,11,1.2,72,13.2
+10-05-2025,Sharpener,Accessories,15,0.6,54,9
+10-05-2025,Colored Paper,Paper Goods,9,3,74,27
+10-05-2025,Highlighter,Writing,10,1.5,73,15
+11-05-2025,Notebook,Paper Goods,18,2,31,36
+11-05-2025,Pen,Writing,22,0.5,103,11
+11-05-2025,Pencil,Writing,29,0.3,90,8.7
+12-05-2025,Eraser,Accessories,13,0.25,4,3.25
+12-05-2025,Marker,Writing,14,1,50,14
+12-05-2025,Ruler,Accessories,8,0.75,71,6
+13-05-2025,Glue Stick,Accessories,12,1.2,60,14.4
+13-05-2025,Sharpener,Accessories,11,0.6,43,6.6
+13-05-2025,Colored Paper,Paper Goods,8,3,66,24
+14-05-2025,Highlighter,Writing,13,1.5,60,19.5
+14-05-2025,Notebook,Paper Goods,21,2,10,42
+14-05-2025,Pen,Writing,18,0.5,85,9
+15-05-2025,Pencil,Writing,25,0.3,65,7.5
+15-05-2025,Eraser,Accessories,10,0.25,0,2.5
+15-05-2025,Marker,Writing,17,1,33,17
+16-05-2025,Ruler,Accessories,7,0.75,64,5.25
+16-05-2025,Glue Stick,Accessories,10,1.2,50,12
+16-05-2025,Sharpener,Accessories,14,0.6,29,8.4
+17-05-2025,Colored Paper,Paper Goods,11,3,55,33
+17-05-2025,Highlighter,Writing,12,1.5,48,18
+17-05-2025,Notebook,Paper Goods,19,2,-9,38
+18-05-2025,Pen,Writing,23,0.5,62,11.5
+18-05-2025,Pencil,Writing,28,0.3,37,8.4
+18-05-2025,Eraser,Accessories,14,0.25,-14,3.5
+19-05-2025,Marker,Writing,20,1,13,20
+19-05-2025,Ruler,Accessories,9,0.75,55,6.75
+19-05-2025,Glue Stick,Accessories,13,1.2,37,15.6
+20-05-2025,Sharpener,Accessories,16,0.6,13,9.6
+20-05-2025,Colored Paper,Paper Goods,10,3,45,30
+20-05-2025,Highlighter,Writing,11,1.5,37,16.5
+21-05-2025,Notebook,Paper Goods,22,2,-31,44
+21-05-2025,Pen,Writing,24,0.5,38,12
+21-05-2025,Pencil,Writing,26,0.3,11,7.8
+22-05-2025,Eraser,Accessories,15,0.25,-29,3.75
+22-05-2025,Marker,Writing,18,1,-5,18
+22-05-2025,Ruler,Accessories,10,0.75,45,7.5
+23-05-2025,Glue Stick,Accessories,11,1.2,26,13.2
+23-05-2025,Sharpener,Accessories,13,0.6,0,7.8
+23-05-2025,Colored Paper,Paper Goods,9,3,36,27
+24-05-2025,Highlighter,Writing,14,1.5,23,21
+24-05-2025,Notebook,Paper Goods,20,2,-51,40
+24-05-2025,Pen,Writing,21,0.5,17,10.5
+25-05-2025,Pencil,Writing,27,0.3,-16,8.1
+25-05-2025,Eraser,Accessories,16,0.25,-45,4
+25-05-2025,Marker,Writing,22,1,-27,22
+26-05-2025,Ruler,Accessories,12,0.75,33,9
+26-05-2025,Glue Stick,Accessories,13,1.2,13,15.6
+26-05-2025,Sharpener,Accessories,17,0.6,-17,10.2
+27-05-2025,Colored Paper,Paper Goods,12,3,24,36
+27-05-2025,Highlighter,Writing,15,1.5,8,22.5
+27-05-2025,Notebook,Paper Goods,23,2,-74,46
+28-05-2025,Pen,Writing,28,0.5,-11,14
+28-05-2025,Pencil,Writing,29,0.3,-45,8.7
+28-05-2025,Eraser,Accessories,17,0.25,-62,4.25
+29-05-2025,Marker,Writing,24,1,-51,24
+29-05-2025,Ruler,Accessories,14,0.75,19,10.5
+29-05-2025,Glue Stick,Accessories,15,1.2,-2,18
+30-05-2025,Sharpener,Accessories,18,0.6,-35,10.8
+30-05-2025,Colored Paper,Paper Goods,13,3,11,39
+30-05-2025,Highlighter,Writing,16,1.5,-8,24
